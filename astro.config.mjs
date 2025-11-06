@@ -4,7 +4,7 @@ import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://difaananda.works",
+  site: "https://tinystudioo.com",
   integrations: [tailwind(), sitemap()],
   ...(import.meta.env.SITE && {
     site: import.meta.env.SITE,

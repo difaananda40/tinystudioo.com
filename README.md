@@ -1,6 +1,6 @@
-# Difa Ananda's Personal Website
+# Tinystudioo Company Website
 
-This is the source code for my personal website, [difaananda.works](https://difaananda.works).
+This is the source code for my personal website, [tinystudioo.com](https://tinystudioo.com).
 
 ## Tech Stack
 

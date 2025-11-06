@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://difaananda.works/sitemap-index.xml
+Sitemap: https://tinystudioo.com/sitemap-index.xml
 
 # Crawl delay (optional - adjust as needed)
 Crawl-delay: 1

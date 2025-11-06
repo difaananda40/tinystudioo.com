@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 
-const SITE_URL = "https://difaananda.works";
+const SITE_URL = "https://tinystudioo.com";
 
 export const GET: APIRoute = async () => {
   // Get all projects
