@@ -53,7 +53,7 @@ export const defaultSEO = {
 // SEO utilities
 export function generatePageTitle(pageTitle?: string): string {
   if (!pageTitle) return siteConfig.title;
-  return `${pageTitle} ${siteConfig.title}`;
+  return `${pageTitle} by ${siteConfig.title}`;
 }
 
 export function generatePageDescription(content?: string): string {
