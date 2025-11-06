@@ -2,19 +2,41 @@
 import Button from 'components/common/Button.astro';
 ---
 
-<div id="catch-me" class="flex flex-col lg:flex-row justify-between items-center overflow-x-hidden">
-  <div class="py-16 2xl:py-32 space-y-8 flex flex-col w-full lg:w-1/2">
-    <h2 class="text-black text-6xl font-bold dark:text-white">Get in touch.</h2>
-    <p class="text-xl text-gray-700 dark:text-gray-300">I'd like to explore anytime anywhere, but when you have some project, maybe that'll be my next destination.</p>
-    <div class="flex flex-col space-y-2">
-      <div class="flex flex-row space-x-4 items-center">
-        <img src="icons/linkedin.svg" alt="linkedin icon" class="w-6">
-        <a class="text-lg text-gray-700 dark:text-gray-300 underline" target="_blank" href="https://www.linkedin.com/in/difaananda40/">LinkedIn Profile</a>
-      </div>
-      <div class="flex flex-row space-x-4 items-center">
-        <img src="icons/upwork.svg" alt="upwork icon" class="w-6">
-        <a class="text-lg text-gray-700 dark:text-gray-300 underline" target="_blank" href="https://www.upwork.com/freelancers/~0175407f2d9132f772">Upwork Profile</a>
-      </div>
+<div
+    id="catch-me"
+    class="flex flex-col lg:flex-row justify-between items-center overflow-x-hidden"
+>
+    <div class="py-16 2xl:py-32 space-y-8 flex flex-col w-full lg:w-1/2">
+        <h2 class="text-black text-6xl font-bold dark:text-white">
+            Get in touch.
+        </h2>
+        <p class="text-xl text-gray-700 dark:text-gray-300">
+            We'd like to explore anytime anywhere, but when you have some
+            project, maybe that'll be our next destination.
+        </p>
+        <div class="flex flex-col space-y-2">
+            <div class="flex flex-row space-x-4 items-center">
+                <img src="icons/linkedin.svg" alt="linkedin icon" class="w-6" />
+                <a
+                    class="text-lg text-gray-700 dark:text-gray-300 underline"
+                    target="_blank"
+                    href="https://www.linkedin.com/in/difaananda40/"
+                    >LinkedIn Profile</a
+                >
+            </div>
+            <div class="flex flex-row space-x-4 items-center">
+                <img src="icons/upwork.svg" alt="upwork icon" class="w-6" />
+                <a
+                    class="text-lg text-gray-700 dark:text-gray-300 underline"
+                    target="_blank"
+                    href="https://www.upwork.com/freelancers/~0175407f2d9132f772"
+                    >Upwork Profile</a
+                >
+            </div>
+        </div>
+        <Button href="mailto:difaananda420@gmail.com" classes="mt-10"
+            >Catch me</Button
+        >
     </div>
     <Button href="mailto:difaananda420@gmail.com" classes="mt-10">Catch me</Button>
   </div>
