@@ -1,14 +1,17 @@
-<div class="flex flex-col justify-center items-center my-32 space-y-12">
+<div
+    class="flex flex-col justify-center items-center my-16 md:my-32 space-y-12 relative"
+>
     <h1
         class="font-medium text-4xl tracking-wide flex flex-col items-center justify-center"
     >
         <span
-            class="font-semibold bg-yellow-300 dark:bg-[#19122e] block p-6 w-fit mb-8 rounded-md text-center"
+            class="bg-yellow-300 dark:bg-[#19122e] bg-opacity-50 dark:bg-opacity-50 block p-3 md:p-6 w-fit mb-8 rounded-md text-center"
         >
-            We are Tinystudioo
+            We are
+            <span class="font-bold">tinystudioo.</span>
         </span>
         <span
-            class="flex flex-col items-center justify-center space-y-2 md:space-y-0 md:flex-row"
+            class="flex items-center justify-center space-y-2 md:space-y-0 md:flex-row"
         >
             <span>a</span>
             <span class="font-semibold mx-3 gradient-text">studio</span>
@@ -21,4 +24,21 @@
         usability. From smooth animations to optimized performance, turn complex
         ideas into simple, engaging user experiences.
     </p>
+
+    <div class="absolute -top-44 -right-0 z-[-9999]">
+        <div>
+            <object
+                id="planet"
+                data="/images/planet.svg"
+                type="image/svg+xml"
+                class="absolute w-[206px] h-[200px] right-0 top-0 z-20 rounded-full animate-[pulse_4s_ease-in-out_infinite]"
+            ></object>
+            <object
+                id="eclipse"
+                data="/images/eclipse.svg"
+                type="image/svg+xml"
+                class="absolute w-[300px] h-[300px] right-0 -top-2 z-10 rounded-full animate-[pulse_6s_ease-in-out_infinite]"
+            ></object>
+        </div>
+    </div>
 </div>
