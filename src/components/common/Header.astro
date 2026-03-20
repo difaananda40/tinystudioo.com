@@ -1,4 +1,5 @@
 ---
+import Bulb from "components/common/Bulb.astro";
 import { getLangFromUrl, useTranslatedPath } from "i18n/utils";
 import LanguageSwitcher from "components/common/LanguageSwitcher.astro";
 
@@ -7,6 +8,7 @@ const path = Astro.url.pathname;
 const translatePath = useTranslatedPath(lang);
 
 const isHome = path === `/${lang}` || path === `/${lang}/` || path === "/";
+
 const isProjects = path.includes("/projects");
 
 const currentPath = `font-semibold bg-clip-text text-transparent bg-gradient-to-br
@@ -14,65 +16,24 @@ const currentPath = `font-semibold bg-clip-text text-transparent bg-gradient-to-
                     dark:from-blue-400 dark:to-blue-600`;
 ---
 
-<header class="mx-auto md:sticky top-4 w-full z-40 px-4">
-    <nav
-        id="main-nav"
-        class="mt-8 flex flex-col p-4 space-y-4 items-center w-full max-w-7xl md:w-3/4 md:flex-row md:space-y-0 md:justify-between mx-auto transition-all duration-300 ease-in-out border border-transparent rounded-xl"
-    >
-        <a href={translatePath("/")} class="text-xl font-bold">
-            <span class="text-red-500 dark:text-blue-500 mr-1">by</span>
-            tinystudioo.
-        </a>
+<header
+    class="mx-auto flex flex-col p-8 space-y-4 items-center w-full max-w-7xl md:w-3/4 md:flex-row md:py-10 md:space-y-0 md:justify-between"
+>
+    <Bulb />
 
-        <ul class="flex flex-row space-x-8 text-lg items-center">
-            <li class={isHome ? currentPath : ""}>
-                <a href={translatePath("/")}>Home</a>
-            </li>
-            <li class={isProjects ? currentPath : ""}>
-                <a href={translatePath("/projects")}>Projects</a>
-            </li>
+    <a href={translatePath("/")} class="text-xl font-bold">
+        <span class="text-red-500 dark:text-blue-500 mr-1">by</span>
+        tinystudioo.
+    </a>
 
-            <LanguageSwitcher />
-        </ul>
-    </nav>
+    <ul class="flex flex-row space-x-8 text-lg items-center">
+        <li class={isHome ? currentPath : ""}>
+            <a href={translatePath("/")}>Home</a>
+        </li>
+        <li class={isProjects ? currentPath : ""}>
+            <a href={translatePath("/projects")}>Projects</a>
+        </li>
+
+        <LanguageSwitcher />
+    </ul>
 </header>
-
-<script>
-    const setupNav = () => {
-        const nav = document.getElementById("main-nav");
-
-        const glassClasses = [
-            "bg-white/10",
-            "dark:bg-black/20",
-            "backdrop-blur-lg",
-            "border-white/30",
-            "dark:border-white/10",
-        ];
-
-        const handleScroll = () => {
-            // Cek apakah layar saat ini di bawah breakpoint md (768px)
-            const isDesktop = window.innerWidth >= 768;
-
-            if (isDesktop && window.scrollY > 20) {
-                nav?.classList.add(...glassClasses);
-                nav?.classList.remove("border-transparent");
-            } else {
-                // Jika di atas md atau di posisi paling atas, hapus efek glass
-                nav?.classList.remove(...glassClasses);
-                nav?.classList.add("border-transparent");
-            }
-        };
-
-        // Tambahkan listener scroll
-        window.addEventListener("scroll", handleScroll);
-
-        // Tambahkan listener resize agar saat user mengubah ukuran browser,
-        // navbar langsung menyesuaikan tanpa nunggu scroll
-        window.addEventListener("resize", handleScroll);
-
-        handleScroll();
-    };
-
-    setupNav();
-    document.addEventListener("astro:after-swap", setupNav);
-</script>
