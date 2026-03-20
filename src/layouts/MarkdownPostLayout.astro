@@ -2,10 +2,6 @@
 import Gallery from "components/Gallery.astro";
 import Button from "components/common/Button.astro";
 import { decorateTitle } from "helpers";
-import { getLangFromUrl, useTranslations } from "i18n/utils";
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
 
 export interface Props {
     frontmatter: any;
@@ -30,7 +26,7 @@ const title = decorateTitle(frontmatter.title);
                 href={frontmatter.link}
                 newTab={true}
             >
-                {t("btn.open-preview")}
+                Open preview in new tab
             </Button>
         ) : null
     }

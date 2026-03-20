@@ -2,16 +2,6 @@
 import Button from "components/common/Button.astro";
 import type { Project } from "types";
 import { Image } from "astro:assets";
-import {
-    getLangFromUrl,
-    useTranslations,
-    useTranslatedPath,
-    cleanSlug,
-} from "i18n/utils";
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
 
 export interface Props {
     projects: Array<Project>;
@@ -25,7 +15,7 @@ const { projects } = Astro.props;
         {
             projects.map((project) => (
                 <a
-                    href={translatePath(`/projects/${cleanSlug(project.slug)}`)}
+                    href={`/projects/${project.slug}`}
                     class="group bg-white dotted-border dark:border-none dark:bg-[#19122e] p-2 md:p-4 flex flex-col gap-2 odd:-rotate-3 even:rotate-3 even:-translate-y-8 even:md:-translate-y-16 z-0 hover:z-10 -mx-4 md:-mx-10"
                 >
                     <div class="w-full aspect-[2/3] overflow-y-hidden img-container">
@@ -44,9 +34,7 @@ const { projects } = Astro.props;
             ))
         }
     </div>
-    <Button classes="mt-10" href={translatePath("/projects")}
-        >{t("btn.see-more")}</Button
-    >
+    <Button classes="mt-10" href="/projects">See more projects</Button>
 </div>
 
 <script>

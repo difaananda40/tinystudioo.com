@@ -2,12 +2,6 @@
 import { Image } from "astro:assets";
 import { decorateTitle } from "helpers";
 import type { Project } from "types";
-import { getLangFromUrl } from "i18n/utils";
-import { useTranslatedPath } from "i18n/utils";
-import { cleanSlug } from "i18n/utils";
-
-const lang = getLangFromUrl(Astro.url);
-const translatePath = useTranslatedPath(lang);
 
 export interface Props {
     projects: Array<Project>;
@@ -18,23 +12,21 @@ const { projects } = Astro.props;
 
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-10">
     {
-        projects.map((project) => {
-            return (
-                <a href={translatePath(`/projects/${cleanSlug(project.slug)}`)}>
-                    <div class="relative group bg-white dotted-border dark:border-none dark:bg-[#19122e] p-2 flex flex-col gap-2 z-0">
-                        <div class="w-full overflow-y-hidden img-container">
-                            <Image
-                                class="w-full aspect-[3/2] object-cover brightness-100 group-hover:brightness-100 transition-all"
-                                src={project.data.images[0]}
-                                alt={project.data.title}
-                            />
-                        </div>
-                        <h1 class="text-sm font-normal opacity-0 md:group-hover:opacity-100 bg-white dark:bg-[#19122e] absolute left-0 bottom-0 w-full p-2 transition-opacity duration-200">
-                            {decorateTitle(project.data.title)}
-                        </h1>
+        projects.map((project) => (
+            <a href={`/projects/${project.slug}`}>
+                <div class="relative group bg-white dotted-border dark:border-none dark:bg-[#19122e] p-2 flex flex-col gap-2 z-0">
+                    <div class="w-full overflow-y-hidden img-container">
+                        <Image
+                            class="w-full aspect-[3/2] object-cover brightness-100 group-hover:brightness-100 transition-all"
+                            src={project.data.images[0]}
+                            alt={project.data.title}
+                        />
                     </div>
-                </a>
-            );
-        })
+                    <h1 class="text-sm font-normal opacity-0 md:group-hover:opacity-100 bg-white dark:bg-[#19122e] absolute left-0 bottom-0 w-full p-2 transition-opacity duration-200">
+                        {decorateTitle(project.data.title)}
+                    </h1>
+                </div>
+            </a>
+        ))
     }
 </div>
