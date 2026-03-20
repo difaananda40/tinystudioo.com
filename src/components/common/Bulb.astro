@@ -1,0 +1,95 @@
+---
+import { getLangFromUrl, useTranslations } from "i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const bulbOffText = t("btn.bulb-off");
+const bulbOnText = t("btn.bulb-on");
+---
+
+<div
+    transition:persist
+    id="bulb-container"
+    data-off={bulbOffText}
+    data-on={bulbOnText}
+    class="absolute w-36 sm:w-44 sm:h-44 md:w-64 h-36 md:h-64 flex -top-5 -left-10 lg:left-0 sm:top-0"
+>
+    <object
+        id="bulb-off"
+        data="/images/bulb-off.svg"
+        type="image/svg+xml"
+        class="absolute w-36 sm:w-44 sm:h-44 md:w-64 h-36 md:h-64"
+        style="opacity: 0;"></object>
+    <object
+        id="bulb-on"
+        data="/images/bulb-on.svg"
+        type="image/svg+xml"
+        class="absolute w-36 sm:w-44 sm:h-44 md:w-64 h-36 md:h-64"
+        style="opacity: 0;"></object>
+
+    <div
+        class="w-36 sm:w-44 sm:h-44 md:w-64 h-36 md:h-64 flex items-center justify-center pt-6 relative"
+    >
+        <svg
+            id="bulb-toggler"
+            class="w-14 h-14 rounded-full sm:cursor-pointer z-50 relative"
+        ></svg>
+        <p
+            id="bulb-toggler-text"
+            class="hidden sm:block absolute mt-20 ml-14 text-xs text-gray-600 dark:text-gray-300 -rotate-12"
+        >
+        </p>
+    </div>
+</div>
+
+<script>
+    const setupBulb = () => {
+        const container = document.getElementById("bulb-container");
+        if (!container) return;
+
+        const bulbOffText = container.dataset.off || "";
+        const bulbOnText = container.dataset.on || "";
+
+        const bulbOff = document.getElementById(
+            "bulb-off",
+        ) as HTMLObjectElement;
+        const bulbOn = document.getElementById("bulb-on") as HTMLObjectElement;
+        const bulbToggler = document.getElementById(
+            "bulb-toggler",
+        ) as HTMLElement;
+        const bulbTogglerText = document.getElementById(
+            "bulb-toggler-text",
+        ) as HTMLElement;
+
+        if (localStorage.theme === "dark") {
+            if (bulbOn) bulbOn.style.opacity = "1";
+            if (bulbTogglerText) bulbTogglerText.innerHTML = bulbOnText;
+        } else {
+            if (bulbOff) bulbOff.style.opacity = "1";
+            if (bulbTogglerText) bulbTogglerText.innerHTML = bulbOffText;
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains("dark");
+
+            if (!isDark) {
+                document.documentElement.classList.add("dark");
+                localStorage.setItem("theme", "dark");
+                if (bulbOff) bulbOff.style.opacity = "0";
+                if (bulbOn) bulbOn.style.opacity = "1";
+                if (bulbTogglerText) bulbTogglerText.innerHTML = bulbOnText;
+            } else {
+                document.documentElement.classList.remove("dark");
+                localStorage.setItem("theme", "light");
+                if (bulbOff) bulbOff.style.opacity = "1";
+                if (bulbOn) bulbOn.style.opacity = "0";
+                if (bulbTogglerText) bulbTogglerText.innerHTML = bulbOffText;
+            }
+        }
+
+        bulbToggler?.addEventListener("click", toggleTheme);
+    };
+
+    setupBulb();
+</script>

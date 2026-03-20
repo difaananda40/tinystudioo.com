@@ -12,4 +12,11 @@ export default defineConfig({
   ...(import.meta.env.BASE_URL && {
     base: import.meta.env.BASE_URL,
   }),
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "id"],
+    routing: {
+      prefixDefaultLocale: true,
+    },
+  },
 });

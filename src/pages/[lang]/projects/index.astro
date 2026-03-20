@@ -4,8 +4,22 @@ import Works from "components/Works.astro";
 import Footer from "components/Footer.astro";
 import { getCollection } from "astro:content";
 import { generatePageTitle, generateKeywords } from "config/seo";
+import { getLangFromUrl, useTranslations } from "i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 const projects = await getCollection("projects");
+
+const filteredProjects = projects.filter((entry) => {
+    return entry.id.includes(`.${lang}.`);
+});
+
+const title = t("projects.title").split(" ");
+
+export function getStaticPaths() {
+    return [{ params: { lang: "en" } }, { params: { lang: "id" } }];
+}
 ---
 
 <Layout
@@ -26,11 +40,15 @@ const projects = await getCollection("projects");
         <h1
             class="w-full font-bold text-5xl xs:text-7xl tracking-wide flex flex-row flex-wrap sm:justify-center gap-y-2 gap-x-4"
         >
-            <span>Our</span>
-            <span class="gradient-text">recent</span>
-            <span>works</span>
+            {
+                title.map((word, index) => (
+                    <span class={index === 1 ? "gradient-text" : ""}>
+                        {word}
+                    </span>
+                ))
+            }
         </h1>
     </div>
-    <Works projects={projects} />
+    <Works projects={filteredProjects} />
     <Footer />
 </Layout>

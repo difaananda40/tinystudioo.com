@@ -1,3 +1,3 @@
 export const decorateTitle = (title: string) => {
-  return '_' + title + '/*';
-}
+  return "_" + title + "/*";
+};

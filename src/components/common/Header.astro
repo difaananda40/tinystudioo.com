@@ -1,99 +1,39 @@
 ---
-const path: string = Astro.url.pathname;
-const currentPath: string = `font-semibold bg-clip-text text-transparent bg-gradient-to-br
-                              from-red-400 to-red-600
-                              dark:from-blue-400 dark:to-blue-600`;
+import Bulb from "components/common/Bulb.astro";
+import { getLangFromUrl, useTranslatedPath } from "i18n/utils";
+import LanguageSwitcher from "components/common/LanguageSwitcher.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const path = Astro.url.pathname;
+const translatePath = useTranslatedPath(lang);
+
+const isHome = path === `/${lang}` || path === `/${lang}/` || path === "/";
+
+const isProjects = path.includes("/projects");
+
+const currentPath = `font-semibold bg-clip-text text-transparent bg-gradient-to-br
+                    from-red-400 to-red-600
+                    dark:from-blue-400 dark:to-blue-600`;
 ---
 
 <header
     class="mx-auto flex flex-col p-8 space-y-4 items-center w-full max-w-7xl md:w-3/4 md:flex-row md:py-10 md:space-y-0 md:justify-between"
 >
-    <!-- Bulb -->
-    <div
-        transition:persist
-        id="bulb"
-        class="absolute w-36 sm:w-44 sm:h-44 md:w-64 h-36 md:h-64 flex -top-5 -left-10 lg:left-0 sm:top-0"
-    >
-        <object
-            id="bulb-off"
-            data="/images/bulb-off.svg"
-            type="image/svg+xml"
-            class="absolute w-36 sm:w-44 sm:h-44 md:w-64 h-36 md:h-64"
-            style="opacity: 0;"></object>
-        <object
-            id="bulb-on"
-            data="/images/bulb-on.svg"
-            type="image/svg+xml"
-            class="absolute w-36 sm:w-44 sm:h-44 md:w-64 h-36 md:h-64"
-            style="opacity: 0;"></object>
-        <div
-            class="w-36 sm:w-44 sm:h-44 md:w-64 h-36 md:h-64 flex items-center justify-center pt-6 relative"
-        >
-            <svg
-                id="bulb-toggler"
-                class="w-14 h-14 rounded-full sm:cursor-pointer z-50 relative"
-            ></svg>
-            <p
-                id="bulb-toggler-text"
-                class="hidden sm:block absolute mt-20 ml-14 text-xs text-gray-600 dark:text-gray-300 -rotate-12"
-            >
-            </p>
-        </div>
-    </div>
+    <Bulb />
 
-    <a href="/" class="text-xl font-bold">
+    <a href={translatePath("/")} class="text-xl font-bold">
         <span class="text-red-500 dark:text-blue-500 mr-1">by</span>
         tinystudioo.
     </a>
 
-    <ul class="flex flex-row space-x-8 text-lg">
-        <li class={path === "/" ? currentPath : ""}>
-            <a href="/">Home</a>
+    <ul class="flex flex-row space-x-8 text-lg items-center">
+        <li class={isHome ? currentPath : ""}>
+            <a href={translatePath("/")}>Home</a>
         </li>
-        <li class={path.includes("/projects") ? currentPath : ""}>
-            <a href="/projects">Projects</a>
+        <li class={isProjects ? currentPath : ""}>
+            <a href={translatePath("/projects")}>Projects</a>
         </li>
+
+        <LanguageSwitcher />
     </ul>
 </header>
-
-<script>
-    window.onload = function () {
-        // Bulb
-        const bulbOff = document.getElementById(
-            "bulb-off",
-        ) as HTMLObjectElement;
-        const bulbOn = document.getElementById("bulb-on") as HTMLObjectElement;
-        const bulbToggler = document.getElementById(
-            "bulb-toggler",
-        ) as HTMLElement;
-        const bulbTogglerText = document.getElementById(
-            "bulb-toggler-text",
-        ) as HTMLElement;
-
-        if (localStorage.theme === "dark") {
-            bulbOn.style.opacity = "1";
-            bulbTogglerText.innerHTML = "turn on";
-        } else {
-            bulbOff.style.opacity = "1";
-            bulbTogglerText.innerHTML = "turn off";
-        }
-
-        function toggleTheme() {
-            if (localStorage.theme === "light" || !localStorage.theme) {
-                document.documentElement.classList.add("dark");
-                localStorage.setItem("theme", "dark");
-                bulbOff.style.opacity = "0";
-                bulbOn.style.opacity = "1";
-                bulbTogglerText.innerHTML = "turn on";
-            } else {
-                document.documentElement.classList.remove("dark");
-                localStorage.setItem("theme", "light");
-                bulbOff.style.opacity = "1";
-                bulbOn.style.opacity = "0";
-                bulbTogglerText.innerHTML = "turn off";
-            }
-        }
-
-        bulbToggler.addEventListener("click", toggleTheme);
-    };
-</script>

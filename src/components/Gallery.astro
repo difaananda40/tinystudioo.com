@@ -1,5 +1,9 @@
 ---
 import { Image } from "astro:assets";
+import { getLangFromUrl, useTranslations } from "i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 interface Props {
     images?: Array<ImageMetadata>;
@@ -29,7 +33,7 @@ const { images, link } = Astro.props;
                     target="_blank"
                     rel="noreferrer noopener"
                 >
-                    {link ? "View Site" : "No Preview"}
+                    {link ? t("btn.view-site") : "No Preview"}
                 </a>
             </div>
             <div class="text-gray-200 dark:text-gray-600 flex gap-1">

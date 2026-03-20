@@ -1,5 +1,9 @@
 ---
 import Button from "components/common/Button.astro";
+import { getLangFromUrl, useTranslations } from "i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <div
@@ -8,27 +12,26 @@ import Button from "components/common/Button.astro";
 >
     <div class="py-16 2xl:py-32 space-y-8 flex flex-col w-full lg:w-1/2">
         <h2 class="text-black text-6xl font-bold dark:text-white">
-            Get in touch.
+            {t("catch-me.title")}.
         </h2>
         <p class="text-xl text-gray-700 dark:text-gray-300">
-            We'd like to explore anytime anywhere, but when you have some
-            project, maybe that'll be our next destination.
+            {t("catch-me.description")}
         </p>
         <Button href="mailto:tinystudioo4@gmail.com" classes="mt-10"
-            >Catch us</Button
+            >{t("btn.send-mail")}</Button
         >
     </div>
     <div class="relative w-fit h-fit">
         <dotlottie-player
             class="w-full h-full"
-            src="lotties/windy-environment.lottie"
+            src="/lotties/windy-environment.lottie"
             background="transparent"
             speed="1"
             loop
             autoplay></dotlottie-player>
         <dotlottie-player
             class="absolute bottom-5 w-44 h-44 sm:w-64 sm:h-64 xl:w-80 xl:h-80"
-            src="lotties/vespa.lottie"
+            src="/lotties/vespa.lottie"
             background="transparent"
             speed="1"
             loop

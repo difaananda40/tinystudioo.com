@@ -3,13 +3,27 @@ import { getCollection } from "astro:content";
 import Layout from "layouts/Layout.astro";
 import MarkdownPostLayout from "layouts/MarkdownPostLayout.astro";
 import { generatePageTitle, generateKeywords } from "config/seo";
+import { defaultLang } from "i18n/translations";
 
 export async function getStaticPaths() {
     const projectEntries = await getCollection("projects");
-    return projectEntries.map((entry) => ({
-        params: { slug: entry.slug },
-        props: { entry },
-    }));
+    return projectEntries.map((entry) => {
+        const pathParts = entry.id.split("/");
+
+        const fileName = pathParts.pop() || "";
+        const folderName = pathParts.join("/");
+
+        const langMatch = fileName.match(/\.(en|id)\.md$/);
+        const lang = langMatch ? langMatch[1] : defaultLang;
+
+        return {
+            params: {
+                lang: lang,
+                slug: folderName,
+            },
+            props: { entry },
+        };
+    });
 }
 
 const { entry } = Astro.props;
