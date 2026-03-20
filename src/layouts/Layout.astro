@@ -1,6 +1,7 @@
 ---
 import Header from "components/common/Header.astro";
 import SEO from "components/seo/SEO.astro";
+import Bulb from "components/common/Bulb.astro";
 import { ViewTransitions } from "astro:transitions";
 
 export interface Props {
@@ -70,6 +71,9 @@ const {
     >
         <!-- Custom Cursor -->
         <div id="cursor" transition:persist></div>
+
+        <!-- Bulb -->
+        <Bulb />
 
         <Header />
         <main class="w-full md:w-3/4 max-w-7xl mx-auto">

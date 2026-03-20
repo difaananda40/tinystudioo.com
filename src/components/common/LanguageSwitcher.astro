@@ -18,13 +18,14 @@ const currentLabel =
     <button
         type="button"
         data-lang-trigger
-        class="inline-flex items-center gap-2 rounded-lg border border-gray-200/80 dark:border-gray-700/80 bg-white/30 dark:bg-gray-900/80 px-3 py-1.5 text-sm font-normal text-gray-700 dark:text-gray-200 shadow-sm hover:border-gray-300 dark:hover:border-gray-500 transition"
+        class="inline-flex items-center gap-2 rounded-lg border border-gray-200 dark:border-white/10 bg-white/10 dark:bg-black/20 backdrop-blur-lg px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-white/20 dark:hover:bg-white/5 transition-all duration-300"
         aria-haspopup="listbox"
         aria-expanded="false"
     >
         <span class="font-normal uppercase">{currentLabel}</span>
         <svg
-            class="w-4 h-4 opacity-70"
+            class="w-4 h-4 opacity-70 transition-transform duration-300"
+            data-arrow
             viewBox="0 0 20 20"
             fill="currentColor"
             aria-hidden="true"
@@ -39,7 +40,7 @@ const currentLabel =
     <ul
         data-lang-menu
         role="listbox"
-        class="absolute right-0 mt-2 min-w-[90px] rounded-lg border border-gray-200/80 dark:border-gray-700/80 bg-white/95 dark:bg-gray-900/95 backdrop-blur p-1 shadow-lg hidden z-50 uppercase"
+        class="absolute right-0 mt-2 min-w-[110px] rounded-xl border border-gray-200 dark:border-white/10 bg-white/10 dark:bg-black/40 backdrop-blur-xl p-1.5 hidden z-50 uppercase transition-all duration-300 origin-top-right"
     >
         {
             Object.entries(languages).map(([lang, label]) => {
@@ -48,13 +49,16 @@ const currentLabel =
                     <li role="option" aria-selected={active}>
                         <a
                             href={getRelativeLocaleUrl(lang, path)}
-                            class={`flex items-center justify-between rounded-md px-3 py-2 text-sm transition ${
+                            class={`flex items-center justify-between rounded-md px-3 py-2 text-xs transition-all ${
                                 active
-                                    ? "bg-gray-100 dark:bg-gray-800 text-black dark:text-white font-medium"
-                                    : "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800/70"
+                                    ? "bg-white/20 dark:bg-white/10 text-black dark:text-white font-semibold"
+                                    : "text-gray-700 dark:text-gray-200 hover:bg-white/20 dark:hover:bg-white/5"
                             }`}
                         >
                             {label}
+                            {active && (
+                                <span class="w-1.5 h-1.5 rounded-full bg-red-500 dark:bg-blue-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
+                            )}
                         </a>
                     </li>
                 );
@@ -75,47 +79,41 @@ const currentLabel =
             );
             const menu =
                 root.querySelector<HTMLUListElement>("[data-lang-menu]");
+            const arrow = root.querySelector<SVGElement>("[data-arrow]");
 
             if (!trigger || !menu) return;
             if (trigger.dataset.bound === "true") return;
 
-            const closeMenu = (): void => {
-                menu.classList.add("hidden");
-                trigger.setAttribute("aria-expanded", "false");
+            const toggleMenu = (show: boolean): void => {
+                if (show) {
+                    menu.classList.remove("hidden");
+                    trigger.setAttribute("aria-expanded", "true");
+                    arrow?.classList.add("rotate-180");
+                } else {
+                    menu.classList.add("hidden");
+                    trigger.setAttribute("aria-expanded", "false");
+                    arrow?.classList.remove("rotate-180");
+                }
             };
 
             trigger.addEventListener("click", (e: MouseEvent) => {
                 e.stopPropagation();
                 const isHidden = menu.classList.contains("hidden");
-                if (isHidden) {
-                    menu.classList.remove("hidden");
-                    trigger.setAttribute("aria-expanded", "true");
-                } else {
-                    closeMenu();
-                }
+                toggleMenu(isHidden);
             });
 
             document.addEventListener("click", (e: MouseEvent) => {
-                const target = e.target;
-                if (!(target instanceof Node)) return;
-                if (!root.contains(target)) closeMenu();
+                if (!root.contains(e.target as Node)) toggleMenu(false);
             });
 
             document.addEventListener("keydown", (e: KeyboardEvent) => {
-                if (e.key === "Escape") closeMenu();
+                if (e.key === "Escape") toggleMenu(false);
             });
 
             trigger.dataset.bound = "true";
         });
     }
 
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initLanguageSwitcher, {
-            once: true,
-        });
-    } else {
-        initLanguageSwitcher();
-    }
-
+    initLanguageSwitcher();
     document.addEventListener("astro:after-swap", initLanguageSwitcher);
 </script>
